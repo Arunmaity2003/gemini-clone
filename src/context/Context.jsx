@@ -6,22 +6,29 @@ export const Context = createContext()
 const ContextProvider = (props) => {
 
     const [input,setInput] = useState("")
-    const [recentPrompt,setRecenpPrompt] = useState("")
+    const [recentPrompt,setRecentPrompt] = useState("")
     const [prevPrompts,setPrevPrompts] = useState([])
     const [showResult,setShowResult] = useState(false)
     const [loading,setLoading] = useState(false)
     const [resultData,setResultData] = useState("")
 
     const onSent = async (prompt) =>{
-        await runChat(prompt)
+        setResultData("")
+        setLoading(true)
+        setShowResult(true)
+        setRecentPrompt(input)
+        const response = await runChat(input)
+        setResultData(response)
+        setLoading(false)
+        setInput("")
     }
 
-    onSent("What is react js")
+  
     const contextValue = {
         prevPrompts,
         setPrevPrompts,
         onSent,
-        setRecenpPrompt,
+        setRecentPrompt,
         recentPrompt,
         showResult,
         loading,
